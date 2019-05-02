@@ -1,0 +1,24 @@
+{
+  "name": "file-readline",
+  "version": "1.0.0",
+  "description": "read file by line",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linhan-cai/file-readline.git"
+  },
+  "keywords": [
+    "file-readline",
+    "line-by-line",
+    "read-file"
+  ],
+  "author": "linhan.cai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linhan-cai/file-readline/issues"
+  },
+  "homepage": "https://github.com/linhan-cai/file-readline#readme"
+}
