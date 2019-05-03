@@ -1,8 +1,8 @@
 {
   "name": "file-readline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "read file by line",
-  "main": "index.js",
+  "main": "file-readline.js",
   "scripts": {
     "test": "node ./test/test.js"
   },

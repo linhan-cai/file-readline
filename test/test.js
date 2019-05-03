@@ -1,6 +1,6 @@
-const ReadLineSync = require('../readline-sync');
+const ReadLineSync = require('../file-readline-sync');
 
-const ReadLineAsync = require('../readline-async');
+const ReadLineAsync = require('../file-readline');
 
 async function totalLine(file, opts) {
   const rl = new ReadLineAsync(file, opts);
@@ -30,11 +30,11 @@ async function run() {
 
   let line;
   while ((line = rls.next()) !== false) {
-    console.log(line.toString());
+    //console.log(line.toString());
   }
 
   while ((line = await rla.next()) !== false) {
-    console.log(line.toString());
+    //console.log(line.toString());
   }
 
   totalLine(file, opts).then((n) => { console.log('async', n); });

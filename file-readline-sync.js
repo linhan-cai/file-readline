@@ -7,7 +7,7 @@ function optionsGet(options, key, defaultValue) {
   return options[key];
 }
 
-class ReadLineAsync {
+class FileReadLineSync {
   constructor(fileName, options = {}) {
     this.fileName = fileName;
     this.separator = Buffer.from(optionsGet(options, 'separator', '\n'));
@@ -15,7 +15,7 @@ class ReadLineAsync {
     this.bufferSize = optionsGet(options, 'bufferSize', 2048);
     this.maxLineSize = optionsGet(options, 'maxLineSize', 1024 * 1024 * 1); // 1M
 
-    // property for read.
+    // property for sync read.
     this.fd = null;
     this.pos = 0;
     this.readBuffer = Buffer.allocUnsafe(this.bufferSize);
@@ -24,11 +24,10 @@ class ReadLineAsync {
     this.EOL = false;
   }
 
-  async next() {
+  next() {
     let buff = Buffer.allocUnsafe(0);
     for (let i = 0; i < this.step; i += 1) {
-      // eslint-disable-next-line no-await-in-loop
-      const line = await this.readOneLine();
+      const line = this.readOneLine();
       if (line === false) {
         break;
       }
@@ -38,15 +37,14 @@ class ReadLineAsync {
   }
 
   /**
-   * Don't Call Me, I am a private method. Please use next().
+   * Don't Call Me, I'm a private method. Please use next().
    */
-  async readOneLine() {
+  readOneLine() {
     let index = -1;
     do {
       let data = this.buffer.slice(0, this.bufferN);
       if (!this.EOL && !data.includes(this.separator)) {
-        // eslint-disable-next-line no-await-in-loop
-        if (await this.read() === 0) {
+        if (this.readSync() === 0) {
           this.EOL = true;
         }
       }
@@ -76,23 +74,13 @@ class ReadLineAsync {
   /**
    * Don't Call Me, I am a private method.
    */
-  async read() {
+  readSync() {
     if (!this.fd) {
-      this.fd = await new Promise((resolve, reject) => {
-        fs.open(this.fileName, 'r', (err, fd) => {
-          if (err) { reject(err); }
-          resolve(fd);
-        });
-      });
+      this.fd = fs.openSync(this.fileName, 'r');
     }
 
     let n = 0;
-    n = await new Promise((resolve, reject) => {
-      fs.read(this.fd, this.readBuffer, 0, this.readBuffer.length, this.pos, (err, readSize) => {
-        if (err) { reject(err); }
-        resolve(readSize);
-      });
-    });
+    n = fs.readSync(this.fd, this.readBuffer, 0, this.readBuffer.length, this.pos);
     if (n !== 0) {
       this.pos += n;
 
@@ -108,4 +96,4 @@ class ReadLineAsync {
   }
 }
 
-module.exports = ReadLineAsync;
+module.exports = FileReadLineSync;
