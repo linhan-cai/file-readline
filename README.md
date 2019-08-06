@@ -47,7 +47,7 @@ while(line = (fileReadLineSync.next())) {
 ```
 
 ## options
-|-|-|-| - |
 | name | type | default | commend |
+|-|-|-|-|
 | separator | String or Buffer | `'\n'` | ending of line |
-| step | number | 1 | get `step` line in each fileReadLine.next() |
+| step | number | 1 | allow getting mutiple lines by next() |
